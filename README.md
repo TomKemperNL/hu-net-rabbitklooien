@@ -1,0 +1,3 @@
+# Simple RabbitMQ / REST / EntityFramework demo
+
+...
