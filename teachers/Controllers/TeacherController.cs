@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HU.Inno.Teachers.Messaging;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Teachers.Inno.HU.Domain;
 
@@ -10,11 +11,13 @@ public class TeacherController
 {
     private DbSet<Teacher> _teachers;
     private IUnitOfWork _uow;
-    
-    public TeacherController(DbSet<Teacher> teachers, IUnitOfWork uow)
+    private IPublisher<TeacherCreated> _publisher;
+
+    public TeacherController(DbSet<Teacher> teachers, IUnitOfWork uow, IPublisher<TeacherCreated> publisher)
     {
         _teachers = teachers;
         _uow = uow;
+        _publisher = publisher;
     }
 
     [HttpGet]
@@ -30,6 +33,7 @@ public class TeacherController
         Teacher freshOne = new Teacher(newTeacher.name, newTeacher.email);
         _teachers.Add(freshOne);
         _uow.Flush();
+        _publisher.Publish(TeacherCreated.Of(freshOne));
         return freshOne;
     }
 

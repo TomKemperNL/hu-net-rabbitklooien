@@ -1,3 +1,9 @@
 ﻿namespace Teachers.Inno.HU.Domain;
 
-public record TeacherCreated(String email);
+public record TeacherCreated(string Email)
+{
+    public static TeacherCreated Of(Teacher newTeacher)
+    {
+        return new TeacherCreated(newTeacher.Email);
+    }
+}

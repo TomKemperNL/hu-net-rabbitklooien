@@ -1,4 +1,6 @@
-﻿namespace Teachers.Inno.HU.Domain;
+﻿using HU.Inno.Teachers.Messaging;
+
+namespace Teachers.Inno.HU.Domain;
 
 public class Teacher
 {
@@ -7,9 +9,9 @@ public class Teacher
         this.Name = name;
         this.Email = email;
     }
-    
+
     public long Id { get; private set; }
 
-    public String Name { get; private set; }
-    public String Email { get; private set; }
+    public string Name { get; private set; }
+    public string Email { get; private set; }
 }
