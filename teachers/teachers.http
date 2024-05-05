@@ -1,6 +1,19 @@
 @teachers_HostAddress = http://localhost:5248
 
-GET {{teachers_HostAddress}}/weatherforecast/
+GET {{teachers_HostAddress}}/teachers/
 Accept: application/json
 
 ###
+
+POST {{teachers_HostAddress}}/teachers
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "test",
+  "email": "test@hu.nl"
+}
+
+###
+
+DELETE {{teachers_HostAddress}}/teachers/3

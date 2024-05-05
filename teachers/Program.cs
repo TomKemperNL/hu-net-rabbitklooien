@@ -1,4 +1,5 @@
 using Teachers.Inno.HU;
+using Teachers.Inno.HU.Controllers;
 using Teachers.Inno.HU.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddDbContext<TeacherDBContext>();
 
-builder.Services.AddTransient(s => new TeacherContext());
-builder.Services.AddTransient(s => s.GetService<TeacherContext>()!.Teachers);
+builder.Services.AddTransient(s => s.GetService<TeacherDBContext>()!.Teachers);
+builder.Services.AddTransient<IUnitOfWork>(s => new DbContextUnitOfWork(s.GetService<TeacherDBContext>()!));
 
 var app = builder.Build();
 
@@ -19,17 +21,20 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    var ctx = app.Services.GetService<TeacherContext>();
-    ctx.Database.EnsureDeleted();
-    ctx.Database.EnsureCreated();
 
-    ctx.Teachers.Add(new Teacher("Bob", "bob@hu.nl"));
-    ctx.Teachers.Add(new Teacher("Tom", "tom@hu.nl"));
-    ctx.SaveChanges();
+    using (var scope = app.Services.CreateScope())
+    {
+        var ctx = scope.ServiceProvider.GetService<TeacherDBContext>();
+        ctx.Database.EnsureDeleted();
+        ctx.Database.EnsureCreated();
+
+        ctx.Teachers.Add(new Teacher("Bob", "bob@hu.nl"));
+        ctx.Teachers.Add(new Teacher("Tom", "tom@hu.nl"));
+        ctx.SaveChanges();
+    }
 }
 
 app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
-

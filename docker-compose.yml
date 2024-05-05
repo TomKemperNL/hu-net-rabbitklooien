@@ -7,3 +7,8 @@ services:
       POSTGRES_PASSWORD: 1q2w3e!
     volumes:
       - "./docker/db/init:/docker-entrypoint-initdb.d/"
+  rabbit:
+    image: rabbitmq:3-management
+    ports: 
+      - "5672:5672"
+      - "15672:15672"

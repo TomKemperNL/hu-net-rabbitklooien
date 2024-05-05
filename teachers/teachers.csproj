@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>Teachers</AssemblyName>
-    <RootNamespace>Teachers.Inno.HU</RootNamespace>
+    <AssemblyName>HU.Inno.Teachers</AssemblyName>
+    <RootNamespace>HU.Inno.Teachers</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

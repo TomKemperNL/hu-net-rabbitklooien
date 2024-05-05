@@ -3,7 +3,7 @@ using Teachers.Inno.HU.Domain;
 
 namespace Teachers.Inno.HU;
 
-public class TeacherContext : DbContext
+public class TeacherDBContext : DbContext
 {
     public DbSet<Teacher> Teachers { get; set; }
 
