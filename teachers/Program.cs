@@ -9,6 +9,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+builder.Services.AddTransient(s => new TeacherContext());
+builder.Services.AddTransient(s => s.GetService<TeacherContext>()!.Teachers);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,7 +19,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    var ctx = new TeacherContext();
+    var ctx = app.Services.GetService<TeacherContext>();
     ctx.Database.EnsureDeleted();
     ctx.Database.EnsureCreated();
 
